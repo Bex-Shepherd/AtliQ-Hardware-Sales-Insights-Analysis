@@ -1,41 +1,87 @@
 # AtliQ-Hardware-Sales-Insights-Analysis (2017 - 2020)
 
+## Table of Contents
+1. [Project Background](#project-background)
+2. [Data Structure and Initial Checks (ERD)](#data-structure-and-initial-checks-erd)
+3. [Power Query for Data Inspection and Cleaning](#power-query-for-data-inspection-and-cleaning)
+4. [Analysis Report](#analysis-report)
+5. [Executive Summary](#executive-summary)
+6. [Insights Deep Dive](#insights-deep-dive)
+
+   - [Overall Sales Revenue and Growth Rates](#overall-sales-revenue-and-growth-rates)
+   - [Customer Performance](#customer-performance)
+   - [Sales Volume by Market](#sales-volume-by-market)
+7. [Recommendations](#recommendations)
+
 ## Project Background
 AtliQ Hardware is an Indian computer hardware and peripheral manufacturer and supplier founded in 2017. It has 3 regions across India. I'm partnering with the Sales Director and regional managers to extract sales insights and deliver recommendations to track sales trends and improve performance across sales, marketing, and customer service departments.
 
 ## Data Structure and Initial Checks (ERD)
 The company's main database structure consists of 5 tables as shown below.
+![ERD](https://github.com/user-attachments/assets/d13cf3af-7e75-445d-98aa-53b2356e4e16)
+
 
 For the initial checks, SQL queries regarding various business questions are as follows:
 
+1. What was the total number of transactions done?
+   ```sql
+   SELECT count(*) FROM transactions;
+   ```
+2. How many customers does AtliQ Hardware have?
+   ```sql
+   SELECT count(*) FROM customers;
+   ```
+3. How many transactions were done in 2020?
+   ```sql
+   SELECT transactions.*, date.*
+   FROM transactions
+   INNER JOIN date on transactions.order_date=date.date
+   WHERE date.year=2020;
+   ```  
+
 ## Power Query for Data Inspection and Cleaning
 - 4 records from the Transactions table had their sales amounts in USD instead of INR. We created a custom column using Power Query's **M syntax** where all the sales amounts were normalized into INR. At the time of the analysis, 1 USD = 84 INR.
+![normalized sales amount](https://github.com/user-attachments/assets/d7cc1a66-e602-41ed-97de-36aad4b4b9af)
+
 - We filtered out 2 records from the Transactions table which had sales amounts of 0 and -1, which didn't make sense.
 - AtliQ hardware is operational only in India. The Markets table contained records from New York and Paris. We filtered out these records from the analysis.
 
 ### Analysis Report
 A dynamic Excel dashboard used to report and explore sales trends is included below.
 
+[Sales Analysis Report](https://1drv.ms/x/c/628ecbe184dfd764/EQA__XEviFFNkF4PfzK1ZgEBHWje_Nb4RP4lC2i2UogACQ?e=3gdsJW&nav=MTVfezAwMDAwMDAwLTAwMDEtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMH0)
+
 ## Executive Summary
-AtliQ Hardware's sales analysis of 150k records across 2017 - 2020 shows a decline in revenue over the years. **2018** was the best-performing year with a revenue contribution of 42%. The **North** region accounts for **69%** of the total revenue, the **Central** region contributes **27%**, while the **South** region is the least-performing, with **4%**. In terms of customers, brick-and-mortar stores account for **76%** of the total revenue. AtliQ Hardware can benefit from allocating marketing budget to target more E-commerce customers, opening more stores in the South region to target more sales and boost existing sales, and analyzing customer preferences in brick-and-mortar stores, to enhance E-commerce customer performance.
+AtliQ Hardware's sales analysis of 150k records across 2017 - 2020 shows a decline in revenue over the years. **2018** was the best-performing year with a revenue contribution of 42%. The **North** region accounts for **69%** of the total revenue, the **Central** region contributes **27%**, while the **South** region is the least-performing, with **4%**. In terms of customers, brick-and-mortar stores account for **76%** of the total revenue. AtliQ Hardware can benefit from allocating more marketing budget to target more E-commerce customers, opening more stores in the South region to target more sales and boost existing sales, and analyzing customer preferences in brick-and-mortar stores, to enhance E-commerce customer performance.
 
 ## Insights Deep Dive
-### Category 1: Overall Sales Revenue and Growth Rates
+### Overall Sales Revenue and Growth Rates
 - AtliQ Hardware's total revenue is INR 986.6 with a total of 2.4 million products sold since inception.
+
+  ![Revenue and sales](https://github.com/user-attachments/assets/891a259c-86d1-49ff-961f-76afc58fdfb7)
+ 
 - 2018 had the highest revenue collected, which contributed to 42% of the total revenue.
 - AtliQ Hardware reported an overall decline in year-over-year (YOY) revenue. 2020 experienced the sharpest decline in revenue.
+![YOY Growth](https://github.com/user-attachments/assets/a0ee83f7-06d9-4501-a538-2c1c68e687c8) 
 - 2018 and 2019 had peak sales in July and August.
 
-### Category 2: Customer Performance 
+### Customer Performance 
 - AtliQ Hardware serves 2 customer types - Brick-and-mortar stores and E-commerce stores. Brick-and-mortar has the highest revenue share of 76%.
+  
+![Revenue by customer type](https://github.com/user-attachments/assets/07a5adf6-a90d-4968-8842-e132828b0f57)
+
+
 - The maximum revenue generated by a single store was **INR 413,905,769** while the minimum revenue generated was **INR 336,367**.
 
-### Category 3: Sales Volume by Market
+### Sales Volume by Market
 - The North and Central regions contributed 96% of the total revenue, with the North region alone accounting for 69%.
 - The total number of products sold in the 3 regions are as follows:
   - North - 1,273,435
   - Central - 758,611
   - South - 399,588
+
+     ![total products sold by zone](https://github.com/user-attachments/assets/4f91dca7-07d9-49d1-a7fc-348918a23a50)
+
 
 ## Recommendations
 - Allocate marketing budget for E-commerce stores. For instance, in 2020, the total revenue generated by E-commerce stores was only INR 29,087,765, compared to brick-and-mortar stores which was INR 113,147,794.
